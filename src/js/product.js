@@ -10,31 +10,27 @@ async function displayProductDetails() {
   const product = await dataSource.findProductById(productId);
   if (!product) return;
 
-  document.querySelector("h3").textContent = product.Brand?.Name || "";
-  document.querySelector("h2.divider").textContent =
+  document.querySelector("h2").textContent =
     product.NameWithoutBrand || product.Name;
-  document.querySelector("img.divider").src = product.Image;
-  document.querySelector("img.divider").alt = product.Name;
-  document.querySelector(".product-card__price").textContent =
+  document.querySelector("h3.divider").textContent = product.Brand?.Name || "";
+  document.querySelector("#productImage").src = product.Image;
+  document.querySelector("#productImage").alt = product.Name;
+  document.querySelector("#productPrice").textContent =
     `$${product.FinalPrice}`;
-  document.querySelector(".product__color").textContent =
+  document.querySelector("#productColor").textContent =
     product.Colors?.[0]?.ColorName || "";
-  document.querySelector(".product__description").innerHTML =
+  document.querySelector("#productDesc").innerHTML =
     product.DescriptionHtmlSimple || "";
   document.querySelector("#addToCart").dataset.id = product.Id;
   document.querySelector("#addToCart").textContent = "Add to Cart";
 }
 
 displayProductDetails();
-document.querySelector("#addToCart").addEventListener("click", (e) => {
-  e.preventDefault();
-  const productId = e.target.dataset.id;
-  if (!productId) return;
-
-  const cartItems = JSON.parse(localStorage.getItem("so-cart")) || [];
-  const product = dataSource.findProductById(productId);
-  if (!product) return;
-
-  cartItems.push(product);
-  localStorage.setItem("so-cart", JSON.stringify(cartItems));
-});
+document
+  .querySelector("#addToCart")
+  .addEventListener("click", function (event) {
+    const clickedProductId = event.target.dataset.id;
+    // You can implement your add-to-cart logic here.
+    // For example, dispatch a custom event or call a cart API.
+    alert(`Product ${clickedProductId} added to cart!`);
+  });
