@@ -1,46 +1,108 @@
-// wrapper for querySelector...returns matching element
 export function qs(selector, parent = document) {
   return parent.querySelector(selector);
 }
-// or a more concise version if you are into that sort of thing:
-// export const qs = (selector, parent = document) => parent.querySelector(selector);
 
-// retrieve data from localstorage
 export function getLocalStorage(key) {
-  return JSON.parse(localStorage.getItem(key));
+  const data = localStorage.getItem(key);
+  return data ? JSON.parse(data) : null;
 }
-// save data to local storage
+
 export function setLocalStorage(key, data) {
   localStorage.setItem(key, JSON.stringify(data));
 }
-// set a listener for both touchend and click
-export function setClick(selector, callback) {
-  qs(selector).addEventListener("touchend", (event) => {
-    event.preventDefault();
-    callback();
-  });
-  qs(selector).addEventListener("click", callback);
-}
 
-// get the product id from the query string
 export function getParam(param) {
   const queryString = window.location.search;
   const urlParams = new URLSearchParams(queryString);
-  const product = urlParams.get(param);
-  return product;
+  return urlParams.get(param);
 }
 
 export function renderListWithTemplate(
-  template,
+  templateFn,
   parentElement,
   list,
   position = "afterbegin",
-  clear = false,
+  clear = false
 ) {
-  const htmlStrings = list.map(template);
-  // if clear is true we need to clear out the contents of the parent.
+  const htmlStrings = list.map(templateFn);
   if (clear) {
     parentElement.innerHTML = "";
   }
   parentElement.insertAdjacentHTML(position, htmlStrings.join(""));
+}
+
+// function to take an optional object and a template and insert the objects as HTML into the DOM
+export function renderWithTemplate(template, parentElement, data, callback) {
+  parentElement.insertAdjacentHTML("afterbegin", template);
+  if (callback) {
+    callback(data);
+  }
+}
+
+// async to load HTML template from a file
+export async function loadTemplate(path) {
+  const res = await fetch(path);
+  if (!res.ok) {
+    throw new Error(`Failed to load template: ${path}`);
+  }
+  const template = await res.text();
+  return template;
+}
+
+// Updated: Correcting relative path to partials from /src/checkout/
+export function loadHeaderFooter() {
+  const header = document.querySelector("header");
+  const footer = document.querySelector("footer");
+
+  fetch("../public/partials/header.html")
+    .then((res) => res.text())
+    .then((data) => {
+      header.innerHTML = data;
+    })
+    .catch((err) => console.error("Error loading header:", err));
+
+  fetch("../public/partials/footer.html")
+    .then((res) => res.text())
+    .then((data) => {
+      footer.innerHTML = data;
+    })
+    .catch((err) => console.error("Error loading footer:", err));
+}
+
+// setting listener
+export function setClick(selector, callback) {
+  const el = qs(selector);
+  if (!el) return;
+
+  el.addEventListener("touchend", (event) => {
+    event.preventDefault();
+    callback(event);
+  });
+  el.addEventListener("click", callback);
+}
+
+// utility to notify
+export function alertMessage(message, scroll = true, duration = 3000) {
+  const alert = document.createElement("div");
+  alert.classList.add("alert");
+  alert.innerHTML = `<p>${message}</p><span role="button" tabindex="0" aria-label="Close alert">X</span>`;
+
+  alert.addEventListener("click", function (e) {
+    if (e.target.tagName === "SPAN") {
+      this.remove();
+    }
+  });
+
+  const main = document.querySelector("main");
+  if (!main) return;
+  main.prepend(alert);
+
+  if (scroll) window.scrollTo(0, 0);
+
+}
+
+// util remove alerts
+export function removeAllAlerts() {
+  const alerts = document.querySelectorAll(".alert");
+  alerts.forEach((alert) => alert.remove());
 }

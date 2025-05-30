@@ -281,6 +281,21 @@ button {
   width: 100%;
 }
 
+.form-group {
+  margin-bottom: 1em;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.25em;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 0.5em;
+  font-size: 1rem;
+}
+
 /* Start cart list card styles */
 .cart-card {
   display: grid;
