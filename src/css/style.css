@@ -131,6 +131,59 @@ button {
   fill: gray;
 }
 
+/* Checkout Form Styles */
+
+#checkout-form {
+  max-width: 400px;
+  margin: 20px auto;
+  padding: 25px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+#checkout-form input[type="text"],
+#checkout-form input[type="email"],
+#checkout-form input[type="tel"],
+#checkout-form input[type="number"],
+#checkout-form input[type="password"] {
+  width: 100%;
+  padding: 10px 12px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+  box-sizing: border-box;
+  transition: border-color 0.3s ease;
+}
+
+#checkout-form input[type="text"]:focus,
+#checkout-form input[type="email"]:focus,
+#checkout-form input[type="tel"]:focus,
+#checkout-form input[type="number"]:focus,
+#checkout-form input[type="password"]:focus {
+  border-color: #0078d4;
+  outline: none;
+}
+
+#checkout-form button[type="submit"] {
+  background-color: #0078d4;
+  color: white;
+  padding: 12px;
+  width: 100%;
+  border: none;
+  border-radius: 6px;
+  font-size: 18px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+#checkout-form button[type="submit"]:hover {
+  background-color: #005a9e;
+}
+
+
 /* End cart icon styles */
 
 .mission {
