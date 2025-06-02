@@ -27,10 +27,21 @@ export default class ProductList {
   }
 
   renderList(list) {
-    // const htmlStrings = list.map(productCardTemplate);
-    // this.listElement.insertAdjacentHTML("afterbegin", htmlStrings.join(""));
+    // Create HTML strings from the list of products
+    const htmlStrings = list.map(
+      (product) => `
+      <li class="product-card">
+        <a href="/product_pages/?product=${product.Id}">
+          <img src="${product.Images.PrimaryMedium}" alt="${product.Name}">
+          <h3>${product.Brand.Name}</h3>
+          <p>${product.NameWithoutBrand}</p>
+          <p class="product-card__price">$${product.FinalPrice}</p>
+        </a>
+      </li>
+    `,
+    );
 
-    // apply use new utility function instead of the commented code above
-    renderListWithTemplate(productCardTemplate, this.listElement, list);
+    // Insert the HTML strings into the list element
+    this.listElement.innerHTML = htmlStrings.join("");
   }
 }
