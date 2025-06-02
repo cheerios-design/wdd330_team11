@@ -21,3 +21,13 @@ export function setClick(selector, callback) {
   });
   qs(selector).addEventListener("click", callback);
 }
+export function loadHeaderFooter() {
+  const header = qs("header");
+  const footer = qs("footer");
+  if (header) {
+    header.innerHTML = `<h1>My Website</h1>`;
+  }
+  if (footer) {
+    footer.innerHTML = `<p>&copy; ${new Date().getFullYear()} My Website</p>`;
+  }
+}
